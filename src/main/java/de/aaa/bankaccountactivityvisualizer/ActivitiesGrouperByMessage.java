@@ -1,27 +1,29 @@
 package de.aaa.bankaccountactivityvisualizer;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import de.aaa.bankaccountactivityvisualizer.domain.AccountActivityItem;
+import de.aaa.bankaccountactivityvisualizer.domain.Group;
+import de.aaa.bankaccountactivityvisualizer.domain.Grouping;
 
 public class ActivitiesGrouperByMessage implements ActivitiesGrouper {
 
-	public Collection<AccountActivityItem> transform(Set<AccountActivityItem> accountActivity) {
-		Map<String, AccountActivityItem> message2accountActivityItem = new HashMap<>();
+	public Grouping transform(Set<AccountActivityItem> accountActivity) {
+		Map<String, Group> message2accountActivityItem = new HashMap<>();
 		for (AccountActivityItem item : accountActivity) {
-			AccountActivityItem accountActivityItem = message2accountActivityItem.get(item.getMessage());
-			if (accountActivityItem == null) {
-				accountActivityItem = new AccountActivityItem();
-				accountActivityItem.setMessage(item.getMessage());
-				message2accountActivityItem.put(item.getMessage(), accountActivityItem);
+		  Group group = message2accountActivityItem.get(item.getMessage());
+			if (group == null) {
+				group = new Group();
+				group.setName(item.getMessage());
+				message2accountActivityItem.put(item.getMessage(), group);
 			}
-			accountActivityItem.setBookedAmount(accountActivityItem.getBookedAmount() + item.getBookedAmount());
+			group.setTotalBookedAmount(group.getTotalBookedAmount() + item.getBookedAmount());
 		}
 		
-		return message2accountActivityItem.values();
+		Grouping grouping = new Grouping();
+		grouping.getActivityGroups().addAll(message2accountActivityItem.values());
+		return grouping;
 	}
 }
