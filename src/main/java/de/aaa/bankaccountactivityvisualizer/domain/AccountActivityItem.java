@@ -1,4 +1,4 @@
-package de.aaa.bankaccountactivityvisualizer;
+package de.aaa.bankaccountactivityvisualizer.domain;
 
 import org.joda.time.DateTime;
 
@@ -112,4 +112,10 @@ public class AccountActivityItem implements Comparable<AccountActivityItem> {
 
     return equal;
   }
+
+@Override
+public String toString() {
+	return "AccountActivityItem [time=" + time + ", message=" + message + ", bookedAmount=" + bookedAmount
+			+ ", balance=" + balance + "]";
+}
 }

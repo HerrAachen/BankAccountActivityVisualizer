@@ -9,6 +9,9 @@ import java.io.IOException;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import de.aaa.bankaccountactivityvisualizer.domain.AccountActivity;
+import de.aaa.bankaccountactivityvisualizer.domain.AccountActivityItem;
+
 public class TdAccountActivityCsvParser {
 
   private static final int BALANCE_COLUMN = 4;
@@ -17,7 +20,7 @@ public class TdAccountActivityCsvParser {
   private static final int MESSAGE_COLUMN = 1;
   private static final int DATE_COLUMN = 0;
   private static final String DELIMITER = ",";
-  DateTimeFormatter dateFormat = DateTimeFormat.forPattern("dd/MM/yyyy");
+  DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy");
 
   public AccountActivity parseAccountActivity(File file) throws IOException {
     if (file == null) {
