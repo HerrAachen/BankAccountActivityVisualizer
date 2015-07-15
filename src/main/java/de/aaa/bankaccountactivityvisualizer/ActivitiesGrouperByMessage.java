@@ -16,10 +16,10 @@ public class ActivitiesGrouperByMessage implements ActivitiesGrouper {
 		  Group group = message2accountActivityItem.get(item.getMessage());
 			if (group == null) {
 				group = new Group();
-				group.setName(item.getMessage());
 				message2accountActivityItem.put(item.getMessage(), group);
 			}
 			group.setTotalBookedAmount(group.getTotalBookedAmount() + item.getBookedAmount());
+			group.setName(item.getMessage() + ":" + group.getTotalBookedAmount() + "$");
 		}
 		
 		Grouping grouping = new Grouping();

@@ -3,6 +3,7 @@ package de.aaa.bankaccountactivityvisualizer.ui;
 import java.io.File;
 import java.io.IOException;
 
+import de.aaa.bankaccountactivityvisualizer.ActivitiesGrouperByCategory;
 import de.aaa.bankaccountactivityvisualizer.ActivitiesGrouperByMessage;
 import de.aaa.bankaccountactivityvisualizer.TdAccountActivityCsvParser;
 import de.aaa.bankaccountactivityvisualizer.domain.AccountActivity;
@@ -26,8 +27,8 @@ public class MainWindow extends Application {
 	public void start(Stage stage) throws Exception {
 		TdAccountActivityCsvParser parser = new TdAccountActivityCsvParser();
 		AccountActivity accountActivity = parser
-				.parseAccountActivity(new File("Data\\Debit\\accountactivity.csv"));
-		Grouping groupedByMessage = new ActivitiesGrouperByMessage()
+				.parseAccountActivity(new File("C:\\workspace\\BankData\\Debit\\accountactivity_2015-07_incomplete.csv"));
+		Grouping groupedByMessage = new ActivitiesGrouperByCategory()
 				.transform(accountActivity.getAccountActivityItems());
 		for (de.aaa.bankaccountactivityvisualizer.domain.Group item : groupedByMessage.getActivityGroups()) {
 			System.out.println(item.getName() + " " + item.getTotalBookedAmount());
