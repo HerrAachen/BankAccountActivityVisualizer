@@ -24,10 +24,22 @@ public class TdAccountActivityCsvParser {
   private static final int DATE_COLUMN = 0;
   private static final String DELIMITER = ",";
   DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy");
-  
-  public AccountActivity parseAccountActivity(String directory) throws IOException{
-    Stream<Path> filesInDirectory = Files.list(new File(directory).toPath());
-    Stream<Path> csvFiles = filesInDirectory.filter(p -> p.toString().endsWith(".csv"));
+
+  public AccountActivity parseAccountActivity(String directory) throws IOException {
+    try (Stream<Path> filesInDirectory = Files.list(new File(directory).toPath())) {
+      Stream<Path> csvFiles = filesInDirectory.filter(p -> p.toString().endsWith(".csv"));
+      final AccountActivity totalAccountActivity = new AccountActivity();
+      csvFiles.forEach(path -> {
+        File file = path.toFile();
+        try {
+          AccountActivity accountActivity = parseAccountActivity(file);
+          totalAccountActivity.getAccountActivityItems().addAll(accountActivity.getAccountActivityItems());
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      });
+      return totalAccountActivity;
+    }
   }
 
   public AccountActivity parseAccountActivity(File file) throws IOException {
@@ -57,7 +69,7 @@ public class TdAccountActivityCsvParser {
   private double parseBookedAmount(String[] parts) {
     String negativeAmountField = parts[NEGATIVE_BOOKING_AMOUNT_COLUMN];
     String positiveAmountField = parts[POSITIVE_BOOKING_AMOUNT_COLUMN];
-    if (isEmptyString(negativeAmountField)){
+    if (isEmptyString(negativeAmountField)) {
       return Double.parseDouble(positiveAmountField);
     } else {
       return -1 * Double.parseDouble(negativeAmountField);
@@ -65,6 +77,6 @@ public class TdAccountActivityCsvParser {
   }
 
   private boolean isEmptyString(String string) {
-    return string==null || string.length()==0;
+    return string == null || string.length() == 0;
   }
 }
