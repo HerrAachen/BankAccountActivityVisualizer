@@ -16,6 +16,8 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.Tab;
 
 public class MainWindow extends Application {
 
@@ -47,7 +49,15 @@ public class MainWindow extends Application {
     chart.setTitle("Spendings");
 
     BorderPane borderPane = new BorderPane();
-    borderPane.setCenter(chart);
+    TabPane tabPane = new TabPane();
+    Tab pieChartTab = new Tab();
+    pieChartTab.setText("Pie Chart");
+    pieChartTab.setContent(chart);
+    Tab monthlySpendingTab = new Tab();
+    monthlySpendingTab.setText("Monthly Spending");
+    tabPane.getTabs().add(pieChartTab);
+    tabPane.getTabs().add(monthlySpendingTab);
+    borderPane.setCenter(tabPane);
     Scene scene = new Scene(borderPane);
     stage.setScene(scene);
     stage.show();
